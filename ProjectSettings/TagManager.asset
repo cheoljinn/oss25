@@ -41,3 +41,9 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
+  - name: background
+    uniqueID: 2946431839
+    locked: 0
+  - name: Pet
+    uniqueID: 3801514171
+    locked: 0
