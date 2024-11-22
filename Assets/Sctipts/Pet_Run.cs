@@ -10,16 +10,18 @@ public class Pet_Run : MonoBehaviour
     public int HP = 3;
 
     private Rigidbody2D rb;
+    private SpriteRenderer sr;
     private Animator animator;
 
     private bool isGrounded = true;
     private bool isSliding = false;
-
+    private bool isAttacked = false;
 
     void Start()
     {
         rb=GetComponent<Rigidbody2D>();
         animator=GetComponent<Animator>();
+        sr=GetComponent<SpriteRenderer>();
     }
 
     void Update()
@@ -63,6 +65,35 @@ public class Pet_Run : MonoBehaviour
         {
             isGrounded=true;
         }
+
+        if (collision.gameObject.tag == "Enemy"&&!isAttacked)
+        {
+            StartCoroutine(Attacked());
+        }
+    }
+
+
+    private IEnumerator Attacked()
+    {
+        isAttacked = true;
+        HP -= 1;
+
+        if (HP > 0) {
+            sr.enabled = true;
+            yield return new WaitForSeconds(0.2f);
+            sr.enabled = false;
+            yield return new WaitForSeconds(0.2f);
+            sr.enabled = true;
+            yield return new WaitForSeconds(0.2f);
+            sr.enabled = false;
+        }
+        else
+        {
+            animator.SetTrigger("doDie");
+            yield return new WaitForSeconds(0.6f);
+        }
+
+        isAttacked=false;
     }
 
 }
