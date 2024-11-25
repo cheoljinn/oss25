@@ -26,7 +26,7 @@ public class Pet_Run : MonoBehaviour
 
     void Update()
     {
-        animator.SetBool("isJumping", !isGrounded);
+        animator.SetBool("isJump", !isGrounded);
         animator.SetBool("isSliding", isSliding);
 
         if (HP <= 0)

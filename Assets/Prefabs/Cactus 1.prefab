@@ -11,7 +11,8 @@ GameObject:
   - component: {fileID: 3618406192035599389}
   - component: {fileID: 8982188629543044554}
   - component: {fileID: 180426146915227438}
-  - component: {fileID: 6764291403438844455}
+  - component: {fileID: 1896386196773993142}
+  - component: {fileID: 7349052845989045477}
   m_Layer: 0
   m_Name: Cactus 1
   m_TagString: Enemy
@@ -131,7 +132,7 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.6547766, y: 1.1914006}
   m_EdgeRadius: 0
---- !u!50 &6764291403438844455
+--- !u!50 &1896386196773993142
 Rigidbody2D:
   serializedVersion: 4
   m_ObjectHideFlags: 0
@@ -158,3 +159,15 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
+--- !u!114 &7349052845989045477
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3733448741374305133}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2ff72034f63b0c04bb2056e7350f4ead, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
