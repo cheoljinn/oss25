@@ -4,10 +4,11 @@ using UnityEngine;
 
 public class Pet_Run : MonoBehaviour
 {
+    public float jumpForce = 7f;
+    public float gravityScale = 2f;
 
-    public float jumpForce = 10f;
-    public float slideSpeed = 5f;
-    public int HP = 3;
+    public int maxHP = 3;
+    public int currentHP;
 
     private Rigidbody2D rb;
     private SpriteRenderer sr;
@@ -16,31 +17,39 @@ public class Pet_Run : MonoBehaviour
     private bool isGrounded = true;
     private bool isSliding = false;
     private bool isAttacked = false;
+    private bool canDoubleJump;
+
 
     void Start()
     {
         rb=GetComponent<Rigidbody2D>();
         animator=GetComponent<Animator>();
         sr=GetComponent<SpriteRenderer>();
+
+        currentHP = maxHP;
     }
 
     void Update()
     {
         animator.SetBool("isJump", !isGrounded);
         animator.SetBool("isSliding", isSliding);
-
-        if (HP <= 0)
-        {
-            animator.SetTrigger("doDie");
-        }
     }
 
     public void Jump()
     {
-        if (isGrounded && !isSliding)
+        if (!isSliding)
         {
-            rb.velocity = Vector2.up * jumpForce;
-            isGrounded = false;
+            if (isGrounded)
+            {
+                rb.velocity = Vector2.up * jumpForce;
+                isGrounded = false;
+                canDoubleJump = true;
+            }
+            else if(canDoubleJump)
+            {
+                rb.velocity= Vector2.up * jumpForce;
+                canDoubleJump=false;
+            }
         }
     }
 
@@ -64,33 +73,39 @@ public class Pet_Run : MonoBehaviour
         if (collision.gameObject.tag == "Ground")
         {
             isGrounded=true;
+            rb.gravityScale = gravityScale;
         }
+    }
 
-        if (collision.gameObject.tag == "Enemy"&&!isAttacked)
+    public void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.gameObject.tag == "Obstacle" && !isAttacked)
         {
-            StartCoroutine(Attacked());
+            StartCoroutine(TakeDamage());
         }
     }
 
 
-    private IEnumerator Attacked()
+    private IEnumerator TakeDamage()
     {
+        Debug.Log("ÇÇ°Ý");
         isAttacked = true;
-        HP -= 1;
+        currentHP -= 1;
 
-        if (HP > 0) {
-            sr.enabled = true;
-            yield return new WaitForSeconds(0.2f);
+        if (currentHP > 0) {
             sr.enabled = false;
-            yield return new WaitForSeconds(0.2f);
+            yield return new WaitForSeconds(0.1f);
             sr.enabled = true;
-            yield return new WaitForSeconds(0.2f);
+            yield return new WaitForSeconds(0.1f);
             sr.enabled = false;
+            yield return new WaitForSeconds(0.1f);
+            sr.enabled = true;
         }
         else
         {
             animator.SetTrigger("doDie");
             yield return new WaitForSeconds(0.6f);
+            Debug.Log("µÚÁü");
         }
 
         isAttacked=false;
