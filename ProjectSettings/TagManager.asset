@@ -50,3 +50,6 @@ TagManager:
   - name: Pet
     uniqueID: 3801514171
     locked: 0
+  - name: bt animation
+    uniqueID: 44989783
+    locked: 0

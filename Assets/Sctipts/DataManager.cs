@@ -6,6 +6,7 @@ using UnityEngine;
 public class DataManager : MonoBehaviour
 {
     public static DataManager instance;
+    public Animator animator;
 
     public int currentDay = 1;
     public int maxDays = 15;
@@ -76,6 +77,37 @@ public class DataManager : MonoBehaviour
     public void IncreaseCleanliness(int v) => ModifyStat("cleanliness", v);
     public void IncreaseSociality(int v) => ModifyStat("sociality", v);
     public void IncreaseWillpower(int v) => ModifyStat("willpower", v);
+
+    public void animation1()
+    {
+        animator.SetTrigger("goPlay");
+    }
+    public void animation2()
+    {
+        animator.SetTrigger("feed");
+    }
+    public void animation3()
+    {
+        animator.SetTrigger("read");
+    }
+    public void animation4()
+    {
+        animator.SetTrigger("exercise");
+    }
+    public void animation5()
+    {
+        animator.SetTrigger("shower");
+    }
+    public void animation6()
+    {
+        animator.SetTrigger("sleep");
+    }
+    public void animation7()
+    {
+        animator.SetTrigger("handling");
+    }
+
+
 
     public void EndGame()
     {
