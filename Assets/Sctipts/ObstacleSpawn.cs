@@ -49,7 +49,7 @@ public class ObstacleSpawn : MonoBehaviour
 
         GameObject obstacle = Instantiate(obstaclePrefabs[randomIndex], point.position, Quaternion.identity);
 
-        float currentSpeed = GameManager.Instance.obstacleSpeed;
+        float currentSpeed = RunManager.Instance.obstacleSpeed;
         Obstacle obstacleScript = obstacle.GetComponent<Obstacle>();
         if (obstacleScript != null)
         {

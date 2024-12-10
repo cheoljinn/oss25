@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class Pet : MonoBehaviour
@@ -9,8 +10,10 @@ public class Pet : MonoBehaviour
 
     public Animator animator;
     public Sprite[] petSprites;
+    public TextMeshProUGUI previous;
+    public TextMeshProUGUI next;
 
-    public SpriteRenderer sr;
+    private SpriteRenderer sr;
     private int currentLevel = 0;
 
     private void Start()
@@ -99,6 +102,10 @@ public class Pet : MonoBehaviour
         DataManager.instance.cleanliness -= 5;
 
         Debug.Log($"현재 날짜: {DataManager.instance.currentDay}");
+
+        int day = DataManager.instance.currentDay;
+        previous.text = (day - 1).ToString();
+        next.text = day.ToString();
         DataManager.instance.SaveData();
 
         if (DataManager.instance.currentDay > maxDay)
@@ -107,4 +114,6 @@ public class Pet : MonoBehaviour
             UnityEngine.SceneManagement.SceneManager.LoadScene("Ending");
         }
     }
+
+
 }

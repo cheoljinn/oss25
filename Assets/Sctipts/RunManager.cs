@@ -2,9 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GameManager : MonoBehaviour
+public class RunManager : MonoBehaviour
 {
-    public static GameManager Instance;
+    public static RunManager Instance;
 
     public float obstacleSpeed = 2.0f;
     public float increaseRate = 0.1f;

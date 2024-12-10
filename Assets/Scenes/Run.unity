@@ -1243,7 +1243,7 @@ MonoBehaviour:
   birdSpawnPoint: {fileID: 1041012527}
   spawnInterval: 4
   randomInterval: 1
-  baseSpeed: 2
+  baseSpeed: 4
   increaseRate: 0.1
   currentSpeed: 0
 --- !u!4 &717172516
@@ -1614,7 +1614,7 @@ MonoBehaviour:
   - {fileID: 1117406353}
   - {fileID: 738975960}
   - {fileID: 536606208}
-  baseSpeed: 2
+  baseSpeed: 4
   resetPosition: -6
   resetOffset: 24
   increaseRate: 0.1
@@ -2849,7 +2849,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e9c36cd813b5fb6488ce61a7c7f08695, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  jumpForce: 7
+  jumpForce: 8
   gravityScale: 2
   maxHP: 3
   currentHP: 0
@@ -3686,7 +3686,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 08b35fd956aa48d4c8d1ff16a6d89ac3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  obstacleSpeed: 2
+  obstacleSpeed: 4
   increaseRate: 0.1
 --- !u!4 &1777320532
 Transform:
