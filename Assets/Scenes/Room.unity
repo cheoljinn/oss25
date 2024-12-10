@@ -205,8 +205,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1816413319}
-        m_TargetAssemblyTypeName: Pet, Assembly-CSharp
+      - m_Target: {fileID: 2069704143}
+        m_TargetAssemblyTypeName: BtAnimations, Assembly-CSharp
         m_MethodName: Read
         m_Mode: 1
         m_Arguments:
@@ -618,8 +618,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1816413319}
-        m_TargetAssemblyTypeName: Pet, Assembly-CSharp
+      - m_Target: {fileID: 2069704143}
+        m_TargetAssemblyTypeName: BtAnimations, Assembly-CSharp
         m_MethodName: GoPlay
         m_Mode: 1
         m_Arguments:
@@ -752,7 +752,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1816413319}
         m_TargetAssemblyTypeName: Pet, Assembly-CSharp
-        m_MethodName: Sleep
+        m_MethodName: AdvanceDay
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -762,9 +762,9 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 1816413319}
-        m_TargetAssemblyTypeName: Pet, Assembly-CSharp
-        m_MethodName: AdvanceDay
+      - m_Target: {fileID: 2069704143}
+        m_TargetAssemblyTypeName: BtAnimations, Assembly-CSharp
+        m_MethodName: Sleep
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1179,7 +1179,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   currentDay: 1
   maxDays: 15
-  money: 0
+  money: 30
   selectedEgg: 1
   isNewGame: 1
   affection: 0
@@ -1620,8 +1620,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1816413319}
-        m_TargetAssemblyTypeName: Pet, Assembly-CSharp
+      - m_Target: {fileID: 2069704143}
+        m_TargetAssemblyTypeName: BtAnimations, Assembly-CSharp
         m_MethodName: Shower
         m_Mode: 1
         m_Arguments:
@@ -2104,8 +2104,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1816413319}
-        m_TargetAssemblyTypeName: Pet, Assembly-CSharp
+      - m_Target: {fileID: 2069704143}
+        m_TargetAssemblyTypeName: BtAnimations, Assembly-CSharp
         m_MethodName: Handling
         m_Mode: 1
         m_Arguments:
@@ -2606,8 +2606,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1816413319}
-        m_TargetAssemblyTypeName: Pet, Assembly-CSharp
+      - m_Target: {fileID: 2069704143}
+        m_TargetAssemblyTypeName: BtAnimations, Assembly-CSharp
         m_MethodName: Feed
         m_Mode: 1
         m_Arguments:
@@ -2738,8 +2738,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1816413319}
-        m_TargetAssemblyTypeName: Pet, Assembly-CSharp
+      - m_Target: {fileID: 2069704143}
+        m_TargetAssemblyTypeName: BtAnimations, Assembly-CSharp
         m_MethodName: Exercise
         m_Mode: 1
         m_Arguments:
@@ -2819,7 +2819,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxDay: 15
-  animator: {fileID: 2069704141}
   petSprites:
   - {fileID: 21300000, guid: 858ea1c9aea009040b1c742be5095ee2, type: 3}
   - {fileID: 21300000, guid: 013a24b67705ff549949b6acc6eee386, type: 3}
@@ -3164,8 +3163,9 @@ GameObject:
   m_Component:
   - component: {fileID: 2069704142}
   - component: {fileID: 2069704141}
+  - component: {fileID: 2069704143}
   m_Layer: 0
-  m_Name: Room animator
+  m_Name: Bt animator
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3217,6 +3217,18 @@ Transform:
   - {fileID: 1216546261}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2069704143
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2069704140}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cb3865b0de7f46e439e2c402de3f1f3e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2070832959
 GameObject:
   m_ObjectHideFlags: 0

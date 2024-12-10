@@ -2,10 +2,22 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Data;
+using System.IO;
 using UnityEngine;
 
 
 public class GotchiData {
+    public int currentDay;
+    public int money;
+    public int selectedEgg;
+    public bool isNewGame;
+
+    public int affection;
+    public int health;
+    public int intelligence;
+    public int cleanliness;
+    public int sociality;
+    public int willpower;
 
 }
 
@@ -19,6 +31,8 @@ public class DataManager : MonoBehaviour
 
     public int selectedEgg = 0;
     public bool isNewGame = true;
+    private string path;
+    private Dictionary<string, bool> buttonStates;
 
     //스탯
     public int affection;
@@ -41,8 +55,50 @@ public class DataManager : MonoBehaviour
         {
             Destroy(gameObject);
         }
+
+        path = Path.Combine(Application.persistentDataPath, "gotchi_save.json");
+
+        InitializeButtonStates();
     }
 
+    private void InitializeButtonStates()
+    {
+        buttonStates = new Dictionary<string, bool>
+        {
+            { "exercise", false },
+            { "feed", false },
+            { "read", false },
+            { "shower", false },
+            { "handling", false },
+            { "goPlay", false }
+        };
+    }
+    public bool CanPerformAction(string actionName)
+    {
+        return buttonStates.ContainsKey(actionName) && !buttonStates[actionName];
+    }
+
+    public void SetActionPerformed(string actionName)
+    {
+        if (buttonStates.ContainsKey(actionName))
+        {
+            buttonStates[actionName] = true;
+        }
+    }
+
+    public bool DeductMoney(int amount)
+    {
+        if (money >= amount)
+        {
+            money -= amount;
+            return true;
+        }
+        else
+        {
+            Debug.LogWarning("돈이 부족합니다!");
+            return false;
+        }
+    }
     public void ModifyStat(string statName, int value)
     {
         switch (statName.ToLower()) {
@@ -73,12 +129,50 @@ public class DataManager : MonoBehaviour
 
     public void SaveData()
     {
+        GotchiData data = new GotchiData
+        {
+            currentDay = currentDay,
+            money = money,
+            selectedEgg = selectedEgg,
+            isNewGame = isNewGame,
+            affection = affection,
+            health = health,
+            intelligence = intelligence,
+            cleanliness = cleanliness,
+            sociality = sociality,
+            willpower = willpower
+        };
 
+        string json = JsonUtility.ToJson(data, true);
+        File.WriteAllText(path, json);
+        Debug.Log("데이터 저장 완료");
     }
 
     public void LoadData()
     {
+        if (File.Exists(path))
+        {
+            string json = File.ReadAllText(path);
+            GotchiData data = JsonUtility.FromJson<GotchiData>(json);
 
+            currentDay = data.currentDay;
+            money = data.money;
+            selectedEgg = data.selectedEgg;
+            isNewGame = data.isNewGame;
+
+            affection = data.affection;
+            health = data.health;
+            intelligence = data.intelligence;
+            cleanliness = data.cleanliness;
+            sociality = data.sociality;
+            willpower = data.willpower;
+
+            Debug.Log("데이터 불러오기 완료");
+        }
+        else
+        {
+            Debug.LogWarning("저장된 데이터 없음");
+        }
     }
 
     public void ResetGame()
@@ -98,5 +192,12 @@ public class DataManager : MonoBehaviour
 
         SaveData();
 
+    }
+    public void ResetButtonStates()
+    {
+        foreach (var key in buttonStates.Keys)
+        {
+            buttonStates[key] = false;
+        }
     }
 }
