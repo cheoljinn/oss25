@@ -27,34 +27,42 @@ public class Pet : MonoBehaviour
         if (DataManager.instance.currentDay==1)
         {
             currentLevel = 0;
-            UpdateSprite();
+            StartCoroutine(UpdateSprite());
         }
         else if(DataManager.instance.currentDay == 2 && currentLevel == 0)
         {
             currentLevel = 1;
-            UpdateSprite();
-        }else if(DataManager.instance.currentDay == 7 && currentLevel == 1)
+            StartCoroutine(UpdateSprite());
+        }
+        else if(DataManager.instance.currentDay == 7 && currentLevel == 1)
         {
             currentLevel = 2;
-            UpdateSprite();
+            StartCoroutine(UpdateSprite());
         }
         else if(DataManager.instance.currentDay == 11 &&currentLevel == 2)
         {
             currentLevel = 3;
-            UpdateSprite();
+            StartCoroutine(UpdateSprite());
         }
     }
 
-    private void UpdateSprite()
+    public IEnumerator UpdateSprite()
     {
+        if (currentLevel != 0)
+        {
+            yield return new WaitForSeconds(2f);
+        }
+
         int eggId = DataManager.instance.selectedEgg;
-        if(eggId == 0)
+        if (eggId == 0)
         {
             Debug.Log("알이 선택되지 않음");
-            return;
         }
-        int spriteIndex = (eggId -1)*4 +currentLevel;
-        sr.sprite = petSprites[spriteIndex];
+        else
+        {
+            int spriteIndex = (eggId - 1) * 4 + currentLevel;
+            sr.sprite = petSprites[spriteIndex];
+        }
     }
 
     public void GoPlay()
@@ -102,6 +110,7 @@ public class Pet : MonoBehaviour
         DataManager.instance.cleanliness -= 5;
 
         Debug.Log($"현재 날짜: {DataManager.instance.currentDay}");
+        CheckLevel();
 
         int day = DataManager.instance.currentDay;
         previous.text = (day - 1).ToString();
@@ -114,6 +123,4 @@ public class Pet : MonoBehaviour
             UnityEngine.SceneManagement.SceneManager.LoadScene("Ending");
         }
     }
-
-
 }
