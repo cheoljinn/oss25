@@ -1,15 +1,24 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Data;
 using UnityEngine;
 
+
+public class GotchiData {
+
+}
+
 public class DataManager : MonoBehaviour
 {
     public static DataManager instance;
-    public Animator animator;
 
     public int currentDay = 1;
     public int maxDays = 15;
+    public int money = 0;
+
+    public int selectedEgg = 0;
+    public bool isNewGame = true;
 
     //스탯
     public int affection;
@@ -18,6 +27,8 @@ public class DataManager : MonoBehaviour
     public int cleanliness;
     public int sociality;
     public int willpower;
+
+
 
     private void Awake()
     {
@@ -29,17 +40,6 @@ public class DataManager : MonoBehaviour
         else
         {
             Destroy(gameObject);
-        }
-    }
-
-    public void AdvanceDay()
-    {
-        currentDay++;
-        Debug.Log($"현재 날짜: {currentDay}");
-
-        if(currentDay > maxDays)
-        {
-            EndGame();
         }
     }
 
@@ -71,46 +71,32 @@ public class DataManager : MonoBehaviour
         Debug.Log($"스탯 {statName} 변경됨: {value}");
     }
 
-    public void IncreaseAffection(int v) => ModifyStat("affection", v);
-    public void IncreaseHealth(int v) => ModifyStat("health", v);
-    public void IncreaseIntelligence(int v) => ModifyStat("intelligence", v);
-    public void IncreaseCleanliness(int v) => ModifyStat("cleanliness", v);
-    public void IncreaseSociality(int v) => ModifyStat("sociality", v);
-    public void IncreaseWillpower(int v) => ModifyStat("willpower", v);
+    public void SaveData()
+    {
 
-    public void animation1()
-    {
-        animator.SetTrigger("goPlay");
-    }
-    public void animation2()
-    {
-        animator.SetTrigger("feed");
-    }
-    public void animation3()
-    {
-        animator.SetTrigger("read");
-    }
-    public void animation4()
-    {
-        animator.SetTrigger("exercise");
-    }
-    public void animation5()
-    {
-        animator.SetTrigger("shower");
-    }
-    public void animation6()
-    {
-        animator.SetTrigger("sleep");
-    }
-    public void animation7()
-    {
-        animator.SetTrigger("handling");
     }
 
-
-
-    public void EndGame()
+    public void LoadData()
     {
-        Debug.Log("엔딩을 맞이합니다");
+
+    }
+
+    public void ResetGame()
+    {
+        isNewGame = false;
+
+        currentDay = 1;
+        money = 0;
+        affection = 0;
+        health = 20;
+        intelligence = 0;
+        cleanliness = 20;
+        sociality = 0;
+        willpower = 0;
+
+        selectedEgg = UnityEngine.Random.Range(1, 4);
+
+        SaveData();
+
     }
 }
