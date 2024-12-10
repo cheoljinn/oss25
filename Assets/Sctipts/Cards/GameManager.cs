@@ -73,9 +73,12 @@ public class GameManager : MonoBehaviour
 
     IEnumerator FlipAllCardsRoutine() //시작 전 카드 보여주는 시간
     {
+        AudioManager.instance.Playsfx(AudioManager.Sfx.clear);
         isFlipping = true;
         yield return new WaitForSeconds(0.5f);
         FlipAllCards();
+        AudioManager.instance.PlayBgm(true);
+
         yield return new WaitForSeconds(2.5f);
         FlipAllCards();
         yield return new WaitForSeconds(0.5f);
@@ -113,6 +116,7 @@ public class GameManager : MonoBehaviour
     {
         if (isFlipping||isGameOver) { return; }
         card.FlipCard();
+        AudioManager.instance.Playsfx(AudioManager.Sfx.click);
 
         if(flippedCard == null)
         {
@@ -135,8 +139,9 @@ public class GameManager : MonoBehaviour
             matchesFound++;
             currentScore += 3;
             SetScoreNumText();
+            AudioManager.instance.Playsfx(AudioManager.Sfx.matching);
 
-            if(matchesFound == totalMatches)
+            if (matchesFound == totalMatches)
             {
                 StopCoroutine("CountDownTimerRoutine"); // 타이머 종료
                 //currentScore += 3;
@@ -162,6 +167,9 @@ public class GameManager : MonoBehaviour
         isGameOver = true;      // 게임 종료 상태로 설정
 
         StopCoroutine("CountDownTimerRoutine"); // 타이머 코루틴 중지
+        AudioManager.instance.Playsfx(AudioManager.Sfx.clear);
+        AudioManager.instance.PlayBgm(false);
+
         if (success)
         {
             gameOverText.SetText("Clear!\nBonus +3!");
@@ -175,6 +183,8 @@ public class GameManager : MonoBehaviour
         }
 
         Invoke("ShowGameOverPanel", 2f);
+        AudioManager.instance.Playsfx(AudioManager.Sfx.ending);
+
     }
 
 
@@ -188,5 +198,7 @@ public class GameManager : MonoBehaviour
     public void OK()
     {
         SceneManager.LoadScene(""); //씬 불러오기
+        AudioManager.instance.Playsfx(AudioManager.Sfx.button);
+
     }
 }
