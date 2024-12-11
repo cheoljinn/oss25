@@ -101,9 +101,11 @@ Run, Card 두 개의 미니게임과 다마고치 UI를 다룹니다. 각 모듈
 
 ## 1. 게임 데이터 관리 
 **DataManager**
-DataManager는 게임 데이터를 관리하고 유지하는 핵심 클래스입니다. 
+DataManager는 게임 데이터를 관리하고 유지하는 핵심 클래스입니다. 씬을 전환해도 게임 데이터의 손실을 막습니다.
 데이터 보존을 위해 싱글톤 패턴과 JSON 파일 형식을 사용합니다. 
 
+![KakaoTalk_20241212_072202665](https://github.com/user-attachments/assets/df0a926c-afa5-4da7-9100-03f967987f1b) <br> 
+씬을 전환해도 money의 값은 그대로 유지됨
 
 ### 싱글톤 패턴 
 싱글톤 패턴을 사용하여 게임의 어떤 씬에서든지 하나의 인스턴스만 존재하도록 합니다. money와 게임 진행 상태 등의 데이터를 보존할 수 있고, 씬 전환 시에도 데이터 손실 발생을 막습니다.
@@ -348,6 +350,7 @@ public void OnOKButtonClicked()
 }
 ```
 Run 미니게임에서 버튼 클릭 시 Room으로 씬 전환
+
 
 
 <br><br>
