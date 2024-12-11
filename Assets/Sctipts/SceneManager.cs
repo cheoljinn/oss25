@@ -16,6 +16,7 @@ public class SceneManager : MonoBehaviour
         DataManager.instance.currentDay = 1;
         DataManager.instance.selectedEgg = 0;
         DataManager.instance.SaveData();
+        SoundManager.instance.Playsfx(SoundManager.Sfx.button);
 
         UnityEngine.SceneManagement.SceneManager.LoadScene("EggSelect");
     }
@@ -23,11 +24,15 @@ public class SceneManager : MonoBehaviour
     public void LoadGame()
     {
         DataManager.instance.LoadData();
+        SoundManager.instance.Playsfx(SoundManager.Sfx.button);
+
         UnityEngine.SceneManagement.SceneManager.LoadScene("Room");
     }
 
     public void RestartGame()
     {
+        SoundManager.instance.Playsfx(SoundManager.Sfx.button);
+
         DataManager.instance.ResetGame();
     }
 

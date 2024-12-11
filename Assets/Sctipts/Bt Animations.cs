@@ -35,6 +35,8 @@ public class BtAnimations : MonoBehaviour
     {
         PerformAction("goPlay", 20, () =>
         {
+            SoundManager.instance.Playsfx(SoundManager.Sfx.button);
+
             DataManager.instance.sociality = Mathf.Min(DataManager.instance.sociality + 5, maxStat);
             DataManager.instance.affection = Mathf.Min(DataManager.instance.affection + 1, maxStat);
             UpdateAllSliders();
@@ -45,6 +47,8 @@ public class BtAnimations : MonoBehaviour
     {
         PerformAction("feed", 10, () =>
         {
+            SoundManager.instance.Playsfx(SoundManager.Sfx.button);
+
             DataManager.instance.health = Mathf.Min(DataManager.instance.health + 10, maxStat);
             DataManager.instance.affection = Mathf.Min(DataManager.instance.affection + 1, maxStat);
             UpdateAllSliders();
@@ -55,6 +59,8 @@ public class BtAnimations : MonoBehaviour
     {
         PerformAction("read", 20, () =>
         {
+            SoundManager.instance.Playsfx(SoundManager.Sfx.button);
+
             DataManager.instance.intelligence = Mathf.Min(DataManager.instance.intelligence + 5, maxStat);
             DataManager.instance.affection = Mathf.Min(DataManager.instance.affection + 1, maxStat);
             UpdateAllSliders();
@@ -65,6 +71,8 @@ public class BtAnimations : MonoBehaviour
     {
         PerformAction("exercise", 20, () =>
         {
+            SoundManager.instance.Playsfx(SoundManager.Sfx.button);
+
             DataManager.instance.willpower = Mathf.Min(DataManager.instance.willpower + 5, maxStat);
             DataManager.instance.affection = Mathf.Min(DataManager.instance.affection + 1, maxStat);
             UpdateAllSliders();
@@ -75,6 +83,8 @@ public class BtAnimations : MonoBehaviour
     {
         PerformAction("shower", 20, () =>
         {
+            SoundManager.instance.Playsfx(SoundManager.Sfx.button);
+
             DataManager.instance.cleanliness = Mathf.Min(DataManager.instance.cleanliness + 10, maxStat);
             DataManager.instance.affection = Mathf.Min(DataManager.instance.affection + 1, maxStat);
             UpdateAllSliders();
@@ -83,6 +93,8 @@ public class BtAnimations : MonoBehaviour
 
     public void Sleep()
     {
+        SoundManager.instance.Playsfx(SoundManager.Sfx.button);
+
         animator.SetTrigger("sleep");
     }
 
@@ -90,6 +102,8 @@ public class BtAnimations : MonoBehaviour
     {
         PerformAction("handling", 0, () =>
         {
+            SoundManager.instance.Playsfx(SoundManager.Sfx.button);
+
             DataManager.instance.affection = Mathf.Min(DataManager.instance.affection + 1, maxStat);
             UpdateAllSliders();
         });
@@ -99,6 +113,8 @@ public class BtAnimations : MonoBehaviour
     {
         if (!DataManager.instance.CanPerformAction(actionName))
         {
+            SoundManager.instance.Playsfx(SoundManager.Sfx.die);
+
             Debug.LogWarning($"이미 오늘 {actionName} 버튼을 눌렀습니다!");
             return;
         }
