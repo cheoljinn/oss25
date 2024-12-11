@@ -36,7 +36,7 @@ public class GameManager : MonoBehaviour
 
     [SerializeField]
     private TextMeshProUGUI gameOverScore;
-
+   
  
 
     private void Awake()
@@ -144,7 +144,7 @@ public class GameManager : MonoBehaviour
             if (matchesFound == totalMatches)
             {
                 StopCoroutine("CountDownTimerRoutine"); // Ÿ�̸� ����
-                //currentScore += 3;
+                currentScore += 3;
                 GameOver(true);
             }
         }
@@ -169,11 +169,15 @@ public class GameManager : MonoBehaviour
         StopCoroutine("CountDownTimerRoutine"); // Ÿ�̸� �ڷ�ƾ ����
         AudioManager.instance.Playsfx(AudioManager.Sfx.clear);
         AudioManager.instance.PlayBgm(false);
+        SaveScoreToMoneyManager();
+
 
         if (success)
         {
             gameOverText.SetText("Clear!\nBonus +3!");
             gameOverScore.SetText("Score: 30");
+            SaveScoreToMoneyManager();
+
         }
         else
         {
@@ -187,10 +191,22 @@ public class GameManager : MonoBehaviour
 
     }
 
-
+    void SaveScoreToMoneyManager()
+    {
+        if (MoneyManager.instance != null)
+        {
+            DataManager.instance.money += currentScore;
+            MoneyManager.instance.UpdateMoneyUI();
+        }
+    }
     void ShowGameOverPanel()
     {
         gameOverPanel.SetActive(true);
 
     }
+    public void OK()
+    {
+        UnityEngine.SceneManagement.SceneManager.LoadScene("Room");
+    }
+
 }

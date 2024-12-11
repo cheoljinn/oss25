@@ -58,6 +58,8 @@ public class RunManager : MonoBehaviour
         isGameRunning = false;
         gameOverScore.SetText(tmp.text);
         finalScore.SetText("Coin: "+CalScore().ToString());
+        SaveScoreToMoneyManager();
+
         Invoke("ShowEndGamePanel", 2f);
     }
 
@@ -112,4 +114,25 @@ public class RunManager : MonoBehaviour
             yield return null; // 매 프레임 실행
         }
     }
+
+    void SaveScoreToMoneyManager()
+    {
+        if (MoneyManager.instance != null)
+        {
+            int addedScore = CalScore();
+            DataManager.instance.money += addedScore;
+            MoneyManager.instance.UpdateMoneyUI();
+            Debug.Log($"Added Score: {addedScore}, Total Money: {DataManager.instance.money}");
+        }
+        else
+        {
+            Debug.LogError("MoneyManager.instance is null!");
+        }
+    }
+
+    public void OnOKButtonClicked()
+    {
+        UnityEngine.SceneManagement.SceneManager.LoadScene("Room");
+    }
+
 }
