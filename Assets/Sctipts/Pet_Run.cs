@@ -9,6 +9,7 @@ public class Pet_Run : MonoBehaviour
 
     public int maxHP = 3;
     public int currentHP;
+    public heartUI heart;
 
     private Rigidbody2D rb;
     private SpriteRenderer sr;
@@ -22,11 +23,13 @@ public class Pet_Run : MonoBehaviour
 
     void Start()
     {
-        rb=GetComponent<Rigidbody2D>();
+        SoundManager.instance.PlayBgm(true);
+        rb =GetComponent<Rigidbody2D>();
         animator=GetComponent<Animator>();
         sr=GetComponent<SpriteRenderer>();
 
         currentHP = maxHP;
+        heart.UpdateHearts(currentHP);
     }
 
     void Update()
@@ -37,6 +40,8 @@ public class Pet_Run : MonoBehaviour
 
     public void Jump()
     {
+        SoundManager.instance.Playsfx(SoundManager.Sfx.jump);
+
         if (!isSliding)
         {
             if (isGrounded)
@@ -55,6 +60,8 @@ public class Pet_Run : MonoBehaviour
 
     public void StartSlide()
     {
+        SoundManager.instance.Playsfx(SoundManager.Sfx.land);
+
         if (isGrounded && !isSliding) {
             isSliding = true;
         }
@@ -91,21 +98,25 @@ public class Pet_Run : MonoBehaviour
         Debug.Log("ÇÇ°Ý");
         isAttacked = true;
         currentHP -= 1;
+        heart.UpdateHearts(currentHP);
+        SoundManager.instance.Playsfx(SoundManager.Sfx.die);
 
         if (currentHP > 0) {
             sr.enabled = false;
-            yield return new WaitForSeconds(0.1f);
+            yield return new WaitForSeconds(0.15f);
             sr.enabled = true;
-            yield return new WaitForSeconds(0.1f);
+            yield return new WaitForSeconds(0.15f);
             sr.enabled = false;
-            yield return new WaitForSeconds(0.1f);
+            yield return new WaitForSeconds(0.15f);
             sr.enabled = true;
         }
         else
         {
+            currentHP = 0;
             animator.SetTrigger("doDie");
             yield return new WaitForSeconds(0.6f);
             Debug.Log("µÚÁü");
+            RunManager.Instance.EndGame();
         }
 
         isAttacked=false;

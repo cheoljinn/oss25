@@ -195,9 +195,9 @@ public class DataManager : MonoBehaviour
     }
     public void ResetButtonStates()
     {
-        foreach (var key in buttonStates.Keys)
+        foreach (var key in new List<string>(buttonStates.Keys))
         {
-            buttonStates[key] = false;
+            buttonStates[key] = false; // Dictionary 수정 허용
         }
     }
 }

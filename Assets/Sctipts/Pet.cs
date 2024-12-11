@@ -15,6 +15,8 @@ public class Pet : MonoBehaviour
     private SpriteRenderer sr;
     private int currentLevel = 0;
 
+   
+
     private void Start()
     {
         sr= GetComponent<SpriteRenderer>();
