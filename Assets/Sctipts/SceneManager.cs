@@ -19,10 +19,15 @@ public class SceneManager : MonoBehaviour
 
         UnityEngine.SceneManagement.SceneManager.LoadScene("EggSelect");
     }
+    
+    public void LoadGame()
+    {
+        DataManager.instance.LoadData();
+        UnityEngine.SceneManagement.SceneManager.LoadScene("Room");
+    }
 
     public void RestartGame()
     {
-
         DataManager.instance.ResetGame();
     }
 

@@ -2303,6 +2303,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentDay: 1
+  currentLevel: 0
   maxDays: 15
   money: 30
   selectedEgg: 1

@@ -11,6 +11,7 @@ public class GotchiData {
     public int money;
     public int selectedEgg;
     public bool isNewGame;
+    public int currentLevel;
 
     public int affection;
     public int health;
@@ -26,6 +27,7 @@ public class DataManager : MonoBehaviour
     public static DataManager instance;
 
     public int currentDay = 1;
+    public int currentLevel = 0;
     public int maxDays = 15;
     public int money = 0;
 
@@ -135,6 +137,7 @@ public class DataManager : MonoBehaviour
             money = money,
             selectedEgg = selectedEgg,
             isNewGame = isNewGame,
+            currentLevel = currentLevel,
             affection = affection,
             health = health,
             intelligence = intelligence,
@@ -145,7 +148,7 @@ public class DataManager : MonoBehaviour
 
         string json = JsonUtility.ToJson(data, true);
         File.WriteAllText(path, json);
-        Debug.Log("데이터 저장 완료");
+        Debug.Log($"데이터 저장 완료: {path}");
     }
 
     public void LoadData()
@@ -159,6 +162,7 @@ public class DataManager : MonoBehaviour
             money = data.money;
             selectedEgg = data.selectedEgg;
             isNewGame = data.isNewGame;
+            currentLevel = data.currentLevel;
 
             affection = data.affection;
             health = data.health;
@@ -180,6 +184,7 @@ public class DataManager : MonoBehaviour
         isNewGame = false;
 
         currentDay = 1;
+        currentLevel = 0;
         money = 0;
         affection = 0;
         health = 20;

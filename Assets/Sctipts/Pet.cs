@@ -11,9 +11,10 @@ public class Pet : MonoBehaviour
     public Sprite[] petSprites;
     public TextMeshProUGUI previous;
     public TextMeshProUGUI next;
+    private bool isDayChanging = false;
 
     private SpriteRenderer sr;
-    private int currentLevel = 0;
+
 
    
 
@@ -21,37 +22,51 @@ public class Pet : MonoBehaviour
     {
         sr= GetComponent<SpriteRenderer>();
         CheckLevel();
+        StartCoroutine(UpdateSprite());
     }
 
     private void CheckLevel()
     {
         if (DataManager.instance.currentDay==1)
         {
-            currentLevel = 0;
+            DataManager.instance.currentLevel = 0;
             StartCoroutine(UpdateSprite());
         }
-        else if(DataManager.instance.currentDay == 2 && currentLevel == 0)
+        else if(DataManager.instance.currentDay < 7)
         {
-            currentLevel = 1;
-            StartCoroutine(UpdateSprite());
+            if (DataManager.instance.currentLevel == 0)
+            {
+                DataManager.instance.currentLevel = 1;
+                StartCoroutine(UpdateSprite());
+            }
         }
-        else if(DataManager.instance.currentDay == 7 && currentLevel == 1)
+        else if(DataManager.instance.currentDay < 11)
         {
-            currentLevel = 2;
-            StartCoroutine(UpdateSprite());
+            if (DataManager.instance.currentLevel == 1)
+            {
+                DataManager.instance.currentLevel = 2;
+                StartCoroutine(UpdateSprite());
+            }
         }
-        else if(DataManager.instance.currentDay == 11 &&currentLevel == 2)
+        else if(DataManager.instance.currentDay < 16)
         {
-            currentLevel = 3;
-            StartCoroutine(UpdateSprite());
+            if (DataManager.instance.currentLevel == 2)
+            {
+                DataManager.instance.currentLevel = 3;
+                StartCoroutine(UpdateSprite());
+            }
         }
     }
 
     public IEnumerator UpdateSprite()
     {
-        if (currentLevel != 0)
+        if (isDayChanging)
         {
             yield return new WaitForSeconds(2f);
+        }
+        else
+        {
+            yield return new WaitForSeconds(0.1f);
         }
 
         int eggId = DataManager.instance.selectedEgg;
@@ -61,13 +76,15 @@ public class Pet : MonoBehaviour
         }
         else
         {
-            int spriteIndex = (eggId - 1) * 4 + currentLevel;
+            int spriteIndex = (eggId - 1) * 4 + DataManager.instance.currentLevel;
             sr.sprite = petSprites[spriteIndex];
+            Debug.Log($"ÇöÀç ÀÎµ¦½º{spriteIndex}");
         }
     }
 
     public void AdvanceDay()
     {
+        isDayChanging = true;
         DataManager.instance.currentDay++;
         DataManager.instance.money += 20;
         DataManager.instance.health -= 5;
@@ -81,6 +98,8 @@ public class Pet : MonoBehaviour
         previous.text = (day - 1).ToString();
         next.text = day.ToString();
         DataManager.instance.SaveData();
+
+        isDayChanging=false;
 
         if (DataManager.instance.currentDay > maxDay)
         {
