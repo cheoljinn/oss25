@@ -4,7 +4,8 @@
 
 **OSS 25**는 다마고치 형식의 게임으로, 귀여운 편의점 음식들을 15일 동안 키우며 진화시키는 게임입니다.
 
-유명 편의점 **GS25**에서 프로젝트 이름을 착안해 제작하였으며, **Unity**를 사용해 구현했습니다.
+유명 편의점 **GS25**에서 프로젝트 이름을 착안해 제작하였습니다.
+Android기반으로 설계된 **Unity** 게임입니다.
 
 **미니게임**을 통해 추가 재화를 벌고, 플레이 스타일에 따라 다마고치의 진화 결과가 달라집니다.
 
@@ -22,6 +23,7 @@
     - [실행 영상](#실행-영상)
 - [게임 구조](#게임-구조)
     - [주요 Scene](#주요-Scene)
+    - [게임 기능](#게임-기능)
     - [밸런스 패치](#밸런스-패치)
     
 - [문제 발생 및 해결](#문제-발생-및-해결)
@@ -38,7 +40,11 @@
 ### 설치 및 실행
 
 1. 안드로이드 환경을 준비해주세요.
-2. 
+2. build된 APK파일을 Android 기기에 다운받습니다.
+   *usb를 케이블 혹은 google drive 등의 서비스를 이용하여 다운받으세요*
+   [헷갈린다면](https://learnandcreate.tistory.com/858)
+4. 다운 받은 APK 파일을 선택하여 설치합니다.
+5. 설치가 완료되었다면 플레이를 즐겨보세요!
 
 <br><br>
 
@@ -49,157 +55,11 @@ https://youtu.be/SsHIEsEp8Fk
 
 <br><br><br>
 
+
 ## 게임 구조
 
 Run, Card 두 개의 미니게임과 다마고치 UI를 다룹니다. 각 모듈은 독립적으로 작동하며, 점수 및 상태는 중앙 `DataManager`를 통해 관리됩니다.
 
-<br>
-
-### 1. 다마고치 UI
-
-- **파일**: `DamagochiUI.cs`
-- **기능**:
-    - 캐릭터의 상태(배고픔, 애정, 청결 등)를 표시.
-    - 플레이어가 캐릭터의 상태를 관리할 수 있는 HUD 제공.
-    - `Slider`와 텍스트를 통해 실시간으로 상태 업데이트.
-<br>    
-
-### 2. 미니게임 1: 카드 매칭 게임
-
-
-
-- **관련 파일**:
-    - `Card.cs`
-    - `Board.cs`
-    - `GameManager.cs`
-- **게임 흐름**:
-    1. `Board`는 카드 ID를 생성 및 섞고 보드를 초기화.
-    2. `Card`는 클릭 시 뒤집혀 매칭 여부를 검사.
-    3. `GameManager`는 게임 상태를 관리하며 점수와 타이머를 업데이트.
-- **특징**:
-    - 모든 카드가 매칭되면 `GameManager`가 점수를 저장 후 게임 종료.
-
-<br>
-
-### 3. 미니게임 2: 러닝 게임
-
-
-- 관련 파일:
-    - `RunManager.cs`
-    - `Pet_Run.cs`
-- 게임 흐름:
-    1. `RunManager`는 게임의 점수, 장애물 속도 증가 및 종료 상태 관리.
-        
-    2. `Pet_Run`은 캐릭터의 점프, 슬라이드 및 장애물 충돌 처리.
-    3. `RunManager`가 종료되면 점수가 저장되고 결과 화면이 표시.
-
-       
-       
-       
-- 특징:
-    - 플레이어는 장애물을 피하면서 최대한 높은 점수를 획득.
-    - HP가 0이 되면 게임 종료.
-      
-<br>
-
-### 4. 중앙 관리 시스템
-
-- **관련 파일**:
-    - `DataManager.cs`
-    - `MoneyManager.cs`
-- **기능**:
-    - `DataManager`:
-        - 모든 데이터(돈, 상태, 점수 등)를 관리하고 저장/로드.
-        - 싱글톤 패턴을 사용하여 전역 접근 가능.
-    - `MoneyManager`:
-        - UI에 현재 돈을 표시하고 업데이트.
-        - 각 미니게임에서 획득한 점수를 통합하여 관리.
-    <br>
-
-
-### 5. 씬 전환 시스템
-
-- 관련 파일:
-    - `SceneManager.cs`
-    - `EggSelect.cs`
-- 기능:
-    - `SceneManager`는 각 게임 및 UI 씬 간 전환을 관리.
-    - `EggSelect`는 플레이어가 캐릭터를 선택한 후 다음 씬으로 이동.
-<br>
-
-## 데이터 흐름
-
-1. **게임 시작**:
-    - `SceneManager`를 통해 초기화된 다마고치 UI 씬에서 시작.
-2. **미니게임 진행**:
-    - 플레이어는 선택한 미니게임(카드 또는 러닝 게임)을 진행.
-    - 각 게임의 점수는 `DataManager`를 통해 `MoneyManager`로 전송.
-3. **상태 업데이트**:
-    - 미니게임 점수에 따라 캐릭터 상태가 업데이트.
-    - UI는 `DamagochiUI`를 통해 반영.
-      
-<br>
-
-## 주요 스크립트의 연계
-
-- **`GameManager` → `MoneyManager`**:
-    - 카드 매칭 게임 종료 시 점수를 저장.
- 
-      ```
-       void SaveScoreToMoneyManager()
-         {
-             if (MoneyManager.instance != null)
-             {
-                 DataManager.instance.money += currentScore;
-                 MoneyManager.instance.UpdateMoneyUI();
-             }
-         }
-      ```
-- **`RunManager` → `MoneyManager`**:
-    - 러닝 게임 종료 시 점수를 저장.
-       ```
-        csharp
-        void SaveScoreToMoneyManager() //Money에 저장합니다.
-        {
-            if (MoneyManager.instance != null)
-        {
-            int addedScore = CalScore();
-            DataManager.instance.money += addedScore;
-            MoneyManager.instance.UpdateMoneyUI();
-            Debug.Log($"Added Score: {addedScore}, Total Money: {DataManager.instance.money}");
-        }
-            else
-        {    
-            Debug.LogError("MoneyManager.instance is null!");
-        }
-        }
-        ```
-- **`MoneyManager` ↔ `DataManager`**:
-    - 돈 데이터를 저장하고, UI를 업데이트.
- 
-    ```
-     public void UpdateMoneyUI()
-     {
-         if (moneyText != null && DataManager.instance != null)
-         {
-             moneyText.text = DataManager.instance.money.ToString();
-         }
-     }
-
-
-    ```
-
-- **`SceneManager`**:
-    - 게임 간의 씬 전환.
- 
-    ```
-     public void LoadScene(string sceneName)
-     {
-         UnityEngine.SceneManagement.SceneManager.LoadScene(sceneName);
-     }
-    ```
-
-<br>
 
 ### 주요 Scene
 
@@ -223,14 +83,320 @@ Run, Card 두 개의 미니게임과 다마고치 UI를 다룹니다. 각 모듈
       <br><br>
 
 4. **Card**
-    ![image](https://github.com/user-attachments/assets/3acf4ef0-04e4-4ddc-89b1-091f592d6c88)
-   ![image](https://github.com/user-attachments/assets/700da9dd-37a4-4d9c-b0bb-209d1dfc016c)
+    ![image](https://github.com/user-attachments/assets/3acf4ef0-04e4-4ddc-89b1-091f592d6c88)  |  ![image](https://github.com/user-attachments/assets/700da9dd-37a4-4d9c-b0bb-209d1dfc016c)
+   --- | --- | 
     <br>
    
     - 제한 시간 35초 안에 동일한 카드 쌍을 찾아 맞추는 미니게임입니다.
     - 맞춘 카드 쌍의 수에 따라 코인을 획득할 수 있습니다.
 
 <br><br>
+
+
+<br>
+
+## 게임 기능
+게임의 주요 기능을 정리했습니다.
+<br>
+
+## 1. 게임 데이터 관리 
+**DataManager**
+DataManager는 게임 데이터를 관리하고 유지하는 핵심 클래스입니다. 
+데이터 보존을 위해 싱글톤 패턴과 JSON 파일 형식을 사용합니다. 
+
+
+### 싱글톤 패턴 
+싱글톤 패턴을 사용하여 게임의 어떤 씬에서든지 하나의 인스턴스만 존재하도록 합니다. money와 게임 진행 상태 등의 데이터를 보존할 수 있고, 씬 전환 시에도 데이터 손실 발생을 막습니다.
+```
+    private void Awake()
+    {
+        if (instance == null)
+        {
+            instance = this;
+            DontDestroyOnLoad(gameObject); // 씬 전환 시 데이터 유지
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+    }
+```
+
+### JSON 파일
+데이터는 JSON 파일 형식으로 저장되고 로드됩니다. 
+```
+    public void SaveData()
+    {
+        ...
+        string json = JsonUtility.ToJson(this, true);  // 객체를 JSON으로 직렬화
+        File.WriteAllText(path, json);  // JSON 파일로 저장
+    }
+```
+
+- 객체를 JSON 형식으로 직렬화:
+
+    `JsonUtility.ToJson` 메서드를 사용해 `DataManager` 클래스의 모든 필드를 JSON 문자열로 변환합니다.
+
+
+
+- JSON 데이터를 파일로 저장:
+
+    `File.WriteAllText` 메서드를 사용해 변환된 JSON 데이터를 지정된 경로(path)에 저장합니다.
+
+<br>
+
+
+```
+    public void LoadData()
+    {
+        if (File.Exists(path))
+        {
+            ...
+            string json = File.ReadAllText(path);  // 저장된 파일 읽기
+            JsonUtility.FromJsonOverwrite(json, this);  // JSON 파일을 객체로 덮어쓰기
+        }
+    }
+}
+...
+```
+
+- JSON 데이터 읽기:
+
+    `File.ReadAllText`로 파일 내용을 문자열로 읽습니다.
+- JSON 데이터를 객체로 복원:
+
+    `JsonUtility.FromJsonOverwrite`를 사용하여 JSON 데이터를 현재 DataManager 인스턴스의 필드에 복사합니다.
+
+
+
+
+
+<br><br>
+
+## 2. **UI와 데이터 연결**
+
+### **DamagochiUI**:
+플레이어가 다마고치의 스탯(배고픔, 애정, 청결도 등) 확인할 수 있는 UI를 제공합니다. `Slider`와 `Text` UI 요소를 활용하여 캐릭터의 상태를 표시하고 업데이트합니다.
+또한 Button으로 스탯에 영향을 줍니다.
+
+#### UI 데이터 업데이트
+```
+    ...
+    public void UpdateStats(int hunger, int affection, int clean, int intelligence, int willpower, int social)
+{
+    hungerBar.value = hunger;
+    affectionBar.value = affection;
+    cleanBar.value = clean;
+    intelligenceBar.value = intelligence;
+    wilpowerBar.value = willpower;
+    sociaBar.value = social;
+}
+```
+슬라이더를 통해 현재 스탯 값을 시각적으로 표현합니다. 
+
+<br><br>
+
+## 3. **미니게임 구현**
+각각의 미니게임은 플레이어의 점수에 따라 `money`의 값이 주어집니다.
+`money`의 값이 `DataManager`를 통해 저장됩니다.
+```
+void SaveScoreToMoneyManager()
+{
+    DataManager.instance.money += currentScore;
+}
+```
+
+### **Card**
+주어진 35초 내에 9쌍의 카드를 맞추는 카드 매칭 게임입니다.
+뒤집은 두 카드가 일치하면 점수를 획득합니다. 일치하는 쌍 마다 +3점씩 얻고, 모두 일치하였을 시 추가 점수 3점을 획득합니다.
+점수는 그대로 `money`로 저장됩니다.
+
+**GameManager**
+`CheckMatchRoutine`은 두 쌍의 카드가 일치하는지 확인하는 코루틴입니다. 
+```
+...
+private IEnumerator CheckMatchRoutine(Card card1, Card card2)
+{
+    isFlipping = true;  // 다른 카드 클릭 방지
+    yield return new WaitForSeconds(0.6f);  // 딜레이 추가
+
+    if (card1.cardID == card2.cardID)  // 카드 ID 매칭 확인
+    {
+        card1.SetMatched();
+        card2.SetMatched();
+        matchesFound++;
+        currentScore += 3;  // 점수 증가
+    }
+    else
+    {
+        card1.FlipCard();  // 매칭 실패 시 카드 다시 뒤집기
+        card2.FlipCard();
+    }
+
+    isFlipping = false;  // 카드 클릭 가능 상태로 복원
+    flippedCard = null;
+
+    if (matchesFound == totalMatches) GameOver(true);  // 모든 매칭 완료 시 게임 종료
+}
+...
+```
+
+
+
+
+### **Run**
+미니게임 Run은 플레이어가 점프와 slide 버튼으로 장애물들을 피해 최대한 오래 생존해야하는 게임입니다. 
+3번 이상 장애물과 충돌할 시 게임은 종료됩니다. 생존시간에 비례하는 점수를 계산하고 게임 종료 시 점수의 10분의 1을 `money`로 저장합니다.
+장애물들은 새와 선인장이 있으며, 시간이 지남에 따라 속도가 빨라집니다.
+
+
+**ScoreCalculationRoutine: 점수 및 속도 증가**
+```
+//RunManager
+IEnumerator ScoreCalculationRoutine()
+{
+    while (isGameRunning)
+    {
+        obstacleSpeed += increaseRate * Time.deltaTime;  // 장애물 속도 증가
+        currentScore += timeScoreRate * Time.deltaTime;  // 점수 증가
+        UpdateScoreUI();  // 점수 UI 업데이트
+        yield return null;  // 매 프레임 실행
+    }
+}
+
+```
+매 프레임마다 점수를 증가시키고 `increaseRate`의 비율에 따라 장애물의 속도를 높입니다.
+
+
+**tag로 상태 확인**
+```
+//RunManager
+public void OnCollisionEnter2D(Collision2D collision)
+{
+    if (collision.gameObject.tag == "Ground")
+    {
+        isGrounded=true;
+        rb.gravityScale = gravityScale;
+    }
+}
+
+public void OnTriggerEnter2D(Collider2D collision)
+{
+    if (collision.gameObject.tag == "Obstacle" && !isAttacked)
+    {
+        StartCoroutine(TakeDamage());
+    }
+}
+```
+태그를 활용하여 장애물과의 충돌을 감지하고 캐릭터의 상태를 업데이트합니다.
+
+
+
+**점프 구현**
+```
+//RunManager
+public void Jump()
+{
+    if (!isSliding)  // 슬라이드 중에는 점프 불가능
+    {
+        if (isGrounded)  // 캐릭터가 땅에 닿아 있는 경우
+        {
+            rb.velocity = Vector2.up * jumpForce;  // 위로 점프
+            isGrounded = false;  // 땅에 닿은 상태 해제
+            canDoubleJump = true;  // 더블 점프 가능 상태로 전환
+        }
+        else if (canDoubleJump)  // 공중에 있고 더블 점프가 가능한 경우
+        {
+            rb.velocity = Vector2.up * jumpForce;  // 위로 점프
+            canDoubleJump = false;  // 더블 점프 사용 불가 상태로 전환
+        }
+    }
+}
+ 
+```
+캐릭터가 슬라이드 중이면 점프를 허용하지 않습니다. 점프 횟수를 2번으로 제한합니다.
+<br><br>
+
+## 4. **씬 전환**
+
+### **SceneManager**
+게임의 씬 전환을 관리합니다. 버튼 클릭 시 다른 씬으로 이동할 수 있도록 구현되어 있습니다.
+
+**LoadScene**
+Scene을 불러올 수 있는 함수입니다.
+```
+public void LoadScene(string sceneName)
+{
+    UnityEngine.SceneManagement.SceneManager.LoadScene(sceneName);
+}
+```
+```
+//GameManager 
+public void OK()
+{
+    UnityEngine.SceneManagement.SceneManager.LoadScene("Room"); 
+} 
+```
+card 미니게임에서 OK 버튼 클릭시 Room으로 씬 전환
+
+
+```
+//RunManager
+public void OnOKButtonClicked()
+{
+    UnityEngine.SceneManagement.SceneManager.LoadScene("Room");
+}
+```
+Run 미니게임에서 버튼 클릭 시 Room으로 씬 전환
+
+
+<br><br>
+
+
+## 5. **게임 엔딩 시스템**
+
+### **EndingManager**
+게임의 종료 상태에 따라 다양한 엔딩을 결정합니다. 스탯 값에 따라 플레이어의 엔딩을 분기 처리합니다. 높은 스탯을 가진 경우 **특별한 엔딩**을 보여줍니다.
+
+
+```
+ int DetermineEnding()
+ {
+     // 스탯 값 가져오기
+     int affection = DataManager.instance.affection;
+     int health = DataManager.instance.health;
+     int cleanliness = DataManager.instance.cleanliness;
+     int intelligence = DataManager.instance.intelligence;
+     int sociality = DataManager.instance.sociality;
+     int willpower = DataManager.instance.willpower;
+
+     // 모든 스탯이 45 이상이면 특별 엔딩
+     if (affection >= 45 && health >= 45 && cleanliness >= 45 &&
+         intelligence >= 45 && sociality >= 45 && willpower >= 45)
+     {
+         return 0; // 특별 엔딩
+     }
+
+     // 애정도와 체력 확인
+     if (affection < 40 || health < 40)
+     {
+         return 1; // 평범한 고치
+     }
+
+     // 직업 엔딩 결정 (40 이상인 스탯 기준)
+     int careerEnding = DetermineCareer(cleanliness, intelligence, sociality, willpower);
+     if (careerEnding != -1)
+     {
+         return careerEnding + 2; // 2번부터 직업 엔딩
+     }
+
+     return 1; // 기본 엔딩으로 대체
+ }
+```
+최종 스탯을 비교하여 엔딩 분기를 선택합니다. 
+
+
+
 
 
 
@@ -273,6 +439,10 @@ Run, Card 두 개의 미니게임과 다마고치 UI를 다룹니다. 각 모듈
 <br>
 
 ### 진화 조건
+![image](https://github.com/user-attachments/assets/f438d00d-b30b-4361-ace2-3361ed8156ab) | ![image](https://github.com/user-attachments/assets/ca9b0fc7-6942-4446-b3f8-d65478a9c126) | ![image](https://github.com/user-attachments/assets/67c320ce-38a4-4ac2-aae5-5cf0130dd5e2)
+--- | --- | --- |
+
+<br> 
 
 | 진화 | 애정도&체력 | 청결도 | 지능 | 의지력 | 사회성 |
 | --- | --- | --- | --- | --- | --- |
@@ -284,6 +454,9 @@ Run, Card 두 개의 미니게임과 다마고치 UI를 다룹니다. 각 모듈
 | 궁극의 고치 | 45이상 | 45이상 | 45이상 | 45이상 | 45이상 |
 
 <br>
+
+
+
 
 ### 행동 버튼
 
