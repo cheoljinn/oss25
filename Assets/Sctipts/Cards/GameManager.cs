@@ -51,7 +51,7 @@ public class GameManager : MonoBehaviour
         Board board = FindObjectOfType<Board>();
         allCards = board.GetCards();
 
-        totalMatches = allCards.Count/2;//ÀÌºÎºÐÀ» Ãß°¡ÇØ¾ß ¿À·ù°¡ ¾È³²
+        totalMatches = allCards.Count/2;//ï¿½ÌºÎºï¿½ï¿½ï¿½ ï¿½ß°ï¿½ï¿½Ø¾ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½È³ï¿½
         currentTime = timeLimit;
         SetCurrentTimeText();
         SetScoreNumText();
@@ -67,21 +67,24 @@ public class GameManager : MonoBehaviour
 
     void SetCurrentTimeText()
     {
-        int timeSec = Mathf.CeilToInt(currentTime); //¿Ã¸²ÇÔ¼ö
+        int timeSec = Mathf.CeilToInt(currentTime); //ï¿½Ã¸ï¿½ï¿½Ô¼ï¿½
         timeoutText.SetText(timeSec.ToString());
     }
 
-    IEnumerator FlipAllCardsRoutine() //½ÃÀÛ Àü Ä«µå º¸¿©ÁÖ´Â ½Ã°£
+    IEnumerator FlipAllCardsRoutine() //ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ Ä«ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ö´ï¿½ ï¿½Ã°ï¿½
     {
+        AudioManager.instance.Playsfx(AudioManager.Sfx.clear);
         isFlipping = true;
         yield return new WaitForSeconds(0.5f);
         FlipAllCards();
+        AudioManager.instance.PlayBgm(true);
+
         yield return new WaitForSeconds(2.5f);
         FlipAllCards();
         yield return new WaitForSeconds(0.5f);
         isFlipping=false;
 
-        //´Ù º¸¿©ÁØ ´ÙÀ½¿¡ ÃÊ½Ã°è ½ÃÀÛ
+        //ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ê½Ã°ï¿½ ï¿½ï¿½ï¿½ï¿½
         yield return StartCoroutine("CountDownTimerRoutine");
     }
 
@@ -90,13 +93,13 @@ public class GameManager : MonoBehaviour
         while (currentTime > 0)
         {
             currentTime -= Time.deltaTime;
-            //¼Ò¼ýÁ¡ °è»ê
+            //ï¿½Ò¼ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
             timeoutSlider.value = currentTime / timeLimit;
             SetCurrentTimeText() ;
             yield return null;
         }
 
-        //½Ã°£ÀÌ ´Ù ³¡³²
+        //ï¿½Ã°ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
         isGameOver = true;
         GameOver(false);
     }
@@ -113,6 +116,7 @@ public class GameManager : MonoBehaviour
     {
         if (isFlipping||isGameOver) { return; }
         card.FlipCard();
+        AudioManager.instance.Playsfx(AudioManager.Sfx.click);
 
         if(flippedCard == null)
         {
@@ -135,10 +139,11 @@ public class GameManager : MonoBehaviour
             matchesFound++;
             currentScore += 3;
             SetScoreNumText();
+            AudioManager.instance.Playsfx(AudioManager.Sfx.matching);
 
-            if(matchesFound == totalMatches)
+            if (matchesFound == totalMatches)
             {
-                StopCoroutine("CountDownTimerRoutine"); // Å¸ÀÌ¸Ó Á¾·á
+                StopCoroutine("CountDownTimerRoutine"); // Å¸ï¿½Ì¸ï¿½ ï¿½ï¿½ï¿½ï¿½
                 //currentScore += 3;
                 GameOver(true);
             }
@@ -158,10 +163,13 @@ public class GameManager : MonoBehaviour
 
     void GameOver(bool success)
     {
-        //if (isGameOver) return; // ÀÌ¹Ì °ÔÀÓ Á¾·á »óÅÂ¶ó¸é ¹ÝÈ¯
-        isGameOver = true;      // °ÔÀÓ Á¾·á »óÅÂ·Î ¼³Á¤
+        //if (isGameOver) return; // ï¿½Ì¹ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Â¶ï¿½ï¿½ ï¿½ï¿½È¯
+        isGameOver = true;      // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Â·ï¿½ ï¿½ï¿½ï¿½ï¿½
 
-        StopCoroutine("CountDownTimerRoutine"); // Å¸ÀÌ¸Ó ÄÚ·çÆ¾ ÁßÁö
+        StopCoroutine("CountDownTimerRoutine"); // Å¸ï¿½Ì¸ï¿½ ï¿½Ú·ï¿½Æ¾ ï¿½ï¿½ï¿½ï¿½
+        AudioManager.instance.Playsfx(AudioManager.Sfx.clear);
+        AudioManager.instance.PlayBgm(false);
+
         if (success)
         {
             gameOverText.SetText("Clear!\nBonus +3!");
@@ -175,6 +183,8 @@ public class GameManager : MonoBehaviour
         }
 
         Invoke("ShowGameOverPanel", 2f);
+        AudioManager.instance.Playsfx(AudioManager.Sfx.ending);
+
     }
 
 
