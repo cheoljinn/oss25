@@ -21,9 +21,9 @@ Android기반으로 설계된 **Unity** 게임입니다.
 
 - [시작하기](#시작하기)
     - [실행 영상](#실행-영상)
+- [게임 흐름](#게임-흐름)
 - [게임 구조](#게임-구조)
     - [주요 Scene](#주요-Scene)
-    - [게임 기능](#게임-기능)
     - [밸런스 패치](#밸런스-패치)
     
 - [문제 발생 및 해결](#문제-발생-및-해결)
@@ -54,6 +54,9 @@ Android기반으로 설계된 **Unity** 게임입니다.
 https://youtu.be/SsHIEsEp8Fk
 
 <br><br><br>
+
+
+ 
 
 
 ## 게임 구조
@@ -103,6 +106,15 @@ Run, Card 두 개의 미니게임과 다마고치 UI를 다룹니다. 각 모듈
 **DataManager**
 DataManager는 게임 데이터를 관리하고 유지하는 핵심 클래스입니다. 씬을 전환해도 게임 데이터의 손실을 막습니다.
 데이터 보존을 위해 싱글톤 패턴과 JSON 파일 형식을 사용합니다. 
+
+- load/new game
+  - load: 저장된 기존 게임 데이터를 불러옴
+  - new: 새로운 게임 데이터 생성
+- 다마고치 행동버튼 클릭
+  - money 차감, 슬라이더 증가 등의 데이터 저장
+- 미니게임 진행 시
+  - 점수에 따라 얻은 money를 기존 머니에 추가
+  
 
 ![KakaoTalk_20241212_072202665](https://github.com/user-attachments/assets/df0a926c-afa5-4da7-9100-03f967987f1b) <br> 
 씬을 전환해도 money의 값은 그대로 유지됨
@@ -194,6 +206,8 @@ DataManager는 게임 데이터를 관리하고 유지하는 핵심 클래스입
     sociaBar.value = social;
 }
 ```
+![image](https://github.com/user-attachments/assets/04509550-74f6-4079-a380-1a7c6955dbe0)
+
 슬라이더를 통해 현재 스탯 값을 시각적으로 표현합니다. 
 
 <br><br>
@@ -213,7 +227,17 @@ void SaveScoreToMoneyManager()
 뒤집은 두 카드가 일치하면 점수를 획득합니다. 일치하는 쌍 마다 +3점씩 얻고, 모두 일치하였을 시 추가 점수 3점을 획득합니다.
 점수는 그대로 `money`로 저장됩니다.
 
+- 카드 매칭
+  - 올바른 카드 선택 시 점수 추가
+  - 맞지 않는 카드 선택 시 다시 되돌아감
+  - `isflipping`중복 클릭을 막음
+
+![KakaoTalk_20241212_073658541_02](https://github.com/user-attachments/assets/65d8e290-3f08-44bd-a944-4612405b796b)
+
+<br>
+
 **GameManager**
+
 `CheckMatchRoutine`은 두 쌍의 카드가 일치하는지 확인하는 코루틴입니다. 
 ```
 ...
@@ -251,6 +275,9 @@ private IEnumerator CheckMatchRoutine(Card card1, Card card2)
 3번 이상 장애물과 충돌할 시 게임은 종료됩니다. 생존시간에 비례하는 점수를 계산하고 게임 종료 시 점수의 10분의 1을 `money`로 저장합니다.
 장애물들은 새와 선인장이 있으며, 시간이 지남에 따라 속도가 빨라집니다.
 
+
+![KakaoTalk_20241212_073658541_01](https://github.com/user-attachments/assets/825f87bf-cb89-4835-9e49-5866567247b4)
+<br>
 
 **ScoreCalculationRoutine: 점수 및 속도 증가**
 ```
@@ -324,6 +351,7 @@ public void Jump()
 ### **SceneManager**
 게임의 씬 전환을 관리합니다. 버튼 클릭 시 다른 씬으로 이동할 수 있도록 구현되어 있습니다.
 
+
 **LoadScene**
 Scene을 불러올 수 있는 함수입니다.
 ```
@@ -357,9 +385,11 @@ Run 미니게임에서 버튼 클릭 시 Room으로 씬 전환
 
 
 ## 5. **게임 엔딩 시스템**
+15일차가 되면 게임 엔딩 씬으로 넘어갑니다. 유저의 플레이에 따라 결과가 달라집니다.
 
 ### **EndingManager**
 게임의 종료 상태에 따라 다양한 엔딩을 결정합니다. 스탯 값에 따라 플레이어의 엔딩을 분기 처리합니다. 높은 스탯을 가진 경우 **특별한 엔딩**을 보여줍니다.
+
 
 
 ```
@@ -445,7 +475,13 @@ Run 미니게임에서 버튼 클릭 시 Room으로 씬 전환
 ![image](https://github.com/user-attachments/assets/f438d00d-b30b-4361-ace2-3361ed8156ab) | ![image](https://github.com/user-attachments/assets/ca9b0fc7-6942-4446-b3f8-d65478a9c126) | ![image](https://github.com/user-attachments/assets/67c320ce-38a4-4ac2-aae5-5cf0130dd5e2)
 --- | --- | --- |
 
-<br> 
+<br>
+
+- 1일차: 알
+- 2일차: 1차 진화
+- 7일차: 2차 진화
+- 11일차: 3차 진화
+- 15일차: 최종 진화
 
 | 진화 | 애정도&체력 | 청결도 | 지능 | 의지력 | 사회성 |
 | --- | --- | --- | --- | --- | --- |
