@@ -170,13 +170,13 @@ MonoBehaviour:
   currentDay: 1
   currentLevel: 0
   maxDays: 15
-  money: 0
+  money: 30
   selectedEgg: 0
   isNewGame: 1
   affection: 0
-  health: 0
+  health: 20
   intelligence: 0
-  cleanliness: 0
+  cleanliness: 20
   sociality: 0
   willpower: 0
 --- !u!1 &186315523

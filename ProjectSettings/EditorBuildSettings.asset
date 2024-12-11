@@ -14,13 +14,13 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/EggSelect.unity
     guid: 95ea1ced873e8f3448e5efa99b27b36b
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/Play.unity
     guid: 4d8f60017d36a464aa1cb01a6eb2ad32
   - enabled: 1
     path: Assets/Scenes/Room.unity
     guid: c6df25877feedde439de4fa304b54f7b
   - enabled: 1
-    path: Assets/Scenes/Ending.unity
-    guid: b1bdd63fccfeeea41b292bf8d4a8d855
+    path: Assets/Scenes/Cards.unity
+    guid: fbc2e503cc94b9941a9443aa3e524126
   m_configObjects: {}

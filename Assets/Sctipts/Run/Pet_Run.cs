@@ -11,6 +11,7 @@ public class Pet_Run : MonoBehaviour
     public int currentHP;
     public heartUI heart;
 
+    public Sprite[] petSprites;
     private Rigidbody2D rb;
     private SpriteRenderer sr;
     private Animator animator;
@@ -30,6 +31,7 @@ public class Pet_Run : MonoBehaviour
 
         currentHP = maxHP;
         heart.UpdateHearts(currentHP);
+        UpdateSprite();
     }
 
     void Update()
@@ -121,5 +123,10 @@ public class Pet_Run : MonoBehaviour
 
         isAttacked=false;
     }
-
+    public void UpdateSprite()
+    {
+        int eggId = DataManager.instance.selectedEgg;
+        int spriteIndex = (eggId - 1) * 4 + DataManager.instance.currentLevel;
+        sr.sprite = petSprites[spriteIndex];
+    }
 }

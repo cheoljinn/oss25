@@ -117,17 +117,8 @@ public class RunManager : MonoBehaviour
 
     void SaveScoreToMoneyManager()
     {
-        if (MoneyManager.instance != null)
-        {
-            int addedScore = CalScore();
-            DataManager.instance.money += addedScore;
-            MoneyManager.instance.UpdateMoneyUI();
-            Debug.Log($"Added Score: {addedScore}, Total Money: {DataManager.instance.money}");
-        }
-        else
-        {
-            Debug.LogError("MoneyManager.instance is null!");
-        }
+        int addedScore = CalScore();
+        DataManager.instance.money += addedScore;
     }
 
     public void OnOKButtonClicked()

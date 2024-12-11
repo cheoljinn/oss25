@@ -193,11 +193,7 @@ public class GameManager : MonoBehaviour
 
     void SaveScoreToMoneyManager()
     {
-        if (MoneyManager.instance != null)
-        {
-            DataManager.instance.money += currentScore;
-            MoneyManager.instance.UpdateMoneyUI();
-        }
+        DataManager.instance.money += currentScore;
     }
     void ShowGameOverPanel()
     {

@@ -11,6 +11,7 @@ public class Pet : MonoBehaviour
     public Sprite[] petSprites;
     public TextMeshProUGUI previous;
     public TextMeshProUGUI next;
+    public TextMeshProUGUI moneyText;
 
     private bool isDayChanging = false;
 
@@ -22,7 +23,7 @@ public class Pet : MonoBehaviour
     private void Start()
     {
         sr= GetComponent<SpriteRenderer>();
-        MoneyManager.instance.UpdateMoneyUI();
+        moneyText.text = DataManager.instance.money.ToString();
         CheckLevel();
         StartCoroutine(UpdateSprite());
     }
