@@ -1,3 +1,4 @@
+![image](https://github.com/user-attachments/assets/17363c26-574a-4b94-bb8c-0fd0baca2a81)
 
 # 😄**어서오세요, 여긴 OSS 25입니다!**
 
