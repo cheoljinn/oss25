@@ -176,8 +176,6 @@ public class GameManager : MonoBehaviour
         {
             gameOverText.SetText("Clear!\nBonus +3!");
             gameOverScore.SetText("Score: 30");
-            SaveScoreToMoneyManager();
-
         }
         else
         {
