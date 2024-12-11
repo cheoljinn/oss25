@@ -2,10 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 
 public class BtAnimations : MonoBehaviour
 {
+
     private Animator animator;
     private int maxStat = 50;
 
@@ -114,6 +116,7 @@ public class BtAnimations : MonoBehaviour
 
             Debug.Log($"{actionName} 행동 완료. 남은 돈: {DataManager.instance.money}");
         }
+        MoneyManager.instance.UpdateMoneyUI();
     }
 
     private void UpdateAllSliders()
@@ -127,5 +130,10 @@ public class BtAnimations : MonoBehaviour
             statSlider[4].value = DataManager.instance.sociality / (float)maxStat;
             statSlider[5].value = DataManager.instance.affection / (float)maxStat;
         }
+    }
+
+    public void UpdateMoneyUI()
+    {
+        MoneyManager.instance.UpdateMoneyUI();
     }
 }
