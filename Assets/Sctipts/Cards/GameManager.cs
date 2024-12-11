@@ -183,10 +183,4 @@ public class GameManager : MonoBehaviour
         gameOverPanel.SetActive(true);
 
     }
-
-
-    public void OK()
-    {
-        SceneManager.LoadScene(""); //¾À ºÒ·¯¿À±â
-    }
 }

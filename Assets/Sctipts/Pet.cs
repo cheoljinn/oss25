@@ -64,10 +64,6 @@ public class Pet : MonoBehaviour
         {
             yield return new WaitForSeconds(2f);
         }
-        else
-        {
-            yield return new WaitForSeconds(0.1f);
-        }
 
         int eggId = DataManager.instance.selectedEgg;
         if (eggId == 0)
