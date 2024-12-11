@@ -40,8 +40,8 @@ Android기반으로 설계된 **Unity** 게임입니다.
 ### 설치 및 실행
 
 1. 안드로이드 환경을 준비해주세요.
-2. build된 APK파일을 Android 기기에 다운받습니다.
-   *usb를 케이블 혹은 google drive 등의 서비스를 이용하여 다운받으세요*
+2. build된 APK파일을 Android 기기에 다운받습니다. <br> 
+   *usb를 케이블 혹은 google drive 등의 서비스를 이용하여 다운받으세요* <br>
    [헷갈린다면](https://learnandcreate.tistory.com/858)
 4. 다운 받은 APK 파일을 선택하여 설치합니다.
 5. 설치가 완료되었다면 플레이를 즐겨보세요!
