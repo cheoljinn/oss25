@@ -7,7 +7,8 @@ using TMPro;
 
 public class BtAnimations : MonoBehaviour
 {
-
+    public TextMeshProUGUI moneyText;
+    public GameObject canvas;
     private Animator animator;
     private int maxStat = 50;
 
@@ -33,7 +34,7 @@ public class BtAnimations : MonoBehaviour
 
     public void GoPlay()
     {
-        PerformAction("goPlay", 20, () =>
+        PerformAction("goPlay", 0, () =>
         {
             SoundManager.instance.Playsfx(SoundManager.Sfx.button);
 
@@ -132,7 +133,7 @@ public class BtAnimations : MonoBehaviour
 
             Debug.Log($"{actionName} 행동 완료. 남은 돈: {DataManager.instance.money}");
         }
-        MoneyManager.instance.UpdateMoneyUI();
+        UpdateMoneyUI();
     }
 
     private void UpdateAllSliders()
@@ -150,6 +151,11 @@ public class BtAnimations : MonoBehaviour
 
     public void UpdateMoneyUI()
     {
-        MoneyManager.instance.UpdateMoneyUI();
+        moneyText.text = DataManager.instance.money.ToString();
+    }
+
+    public void ActivePlay()
+    {
+        canvas.SetActive(true);
     }
 }
