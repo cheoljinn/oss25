@@ -88,8 +88,12 @@ Run, Card 두 개의 미니게임과 다마고치 UI를 다룹니다. 각 모듈
     - `Pet_Run.cs`
 - 게임 흐름:
     1. `RunManager`는 게임의 점수, 장애물 속도 증가 및 종료 상태 관리.
+        
     2. `Pet_Run`은 캐릭터의 점프, 슬라이드 및 장애물 충돌 처리.
     3. `RunManager`가 종료되면 점수가 저장되고 결과 화면이 표시.
+
+       
+       
        
 - 특징:
     - 플레이어는 장애물을 피하면서 최대한 높은 점수를 획득.
@@ -133,12 +137,61 @@ Run, Card 두 개의 미니게임과 다마고치 UI를 다룹니다. 각 모듈
 
 - **`GameManager` → `MoneyManager`**:
     - 카드 매칭 게임 종료 시 점수를 저장.
+ 
+      ```
+       void SaveScoreToMoneyManager()
+         {
+             if (MoneyManager.instance != null)
+             {
+                 DataManager.instance.money += currentScore;
+                 MoneyManager.instance.UpdateMoneyUI();
+             }
+         }
+      ```
 - **`RunManager` → `MoneyManager`**:
     - 러닝 게임 종료 시 점수를 저장.
+       ```
+        csharp
+        void SaveScoreToMoneyManager() //Money에 저장합니다.
+        {
+            if (MoneyManager.instance != null)
+        {
+            int addedScore = CalScore();
+            DataManager.instance.money += addedScore;
+            MoneyManager.instance.UpdateMoneyUI();
+            Debug.Log($"Added Score: {addedScore}, Total Money: {DataManager.instance.money}");
+        }
+            else
+        {    
+            Debug.LogError("MoneyManager.instance is null!");
+        }
+        }
+        ```
 - **`MoneyManager` ↔ `DataManager`**:
     - 돈 데이터를 저장하고, UI를 업데이트.
+ 
+    ```
+     public void UpdateMoneyUI()
+     {
+         if (moneyText != null && DataManager.instance != null)
+         {
+             moneyText.text = DataManager.instance.money.ToString();
+         }
+     }
+
+
+    ```
+
 - **`SceneManager`**:
     - 게임 간의 씬 전환.
+ 
+    ```
+     public void LoadScene(string sceneName)
+     {
+         UnityEngine.SceneManagement.SceneManager.LoadScene(sceneName);
+     }
+    ```
+
 <br>
 
 ### 주요 Scene
@@ -361,9 +414,9 @@ https://github.com/user-attachments/assets/38712d09-dbfa-4477-9a02-b375deb0a13a
 
 ## 레퍼런스 및 참고자료
 
-- **공룡런**: [참고 영상 링크]()
+- **공룡런**: [참고 영상 링크](https://www.youtube.com/watch?v=iENDSs0qXSs&list=PLO-mt5Iu5TebzgxMKYDw40mDxytgFBex0&ab_channel=%EA%B3%A8%EB%93%9C%EB%A9%94%ED%83%88)
 - **카드 뒤집기**: [참고 영상 링크](https://www.youtube.com/watch?v=XhfB3ZS3JoM&ab_channel=%EB%82%98%EB%8F%84%EC%BD%94%EB%94%A9)
-- **다마고치**: [참고 자료 링크]()
+- GPT 사용
 
 <br><br><br>
 
